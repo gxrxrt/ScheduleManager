@@ -32,6 +32,70 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\18d0abe2-8a4d-4cc8-ab60-c0d48c08831b_8Rg1NWCiFdE.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Schedule</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Schedule</BasePath>
+      <RelativePath>images/teachers/18d0abe2-8a4d-4cc8-ab60-c0d48c08831b_8Rg1NWCiFdE.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\18d0abe2-8a4d-4cc8-ab60-c0d48c08831b_8Rg1NWCiFdE.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\375c8bbd-9256-4208-a13d-c8c704053e21_photo_2025-03-10_10-36-29-Photoroom.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Schedule</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Schedule</BasePath>
+      <RelativePath>images/teachers/375c8bbd-9256-4208-a13d-c8c704053e21_photo_2025-03-10_10-36-29-Photoroom.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\375c8bbd-9256-4208-a13d-c8c704053e21_photo_2025-03-10_10-36-29-Photoroom.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\71281fb3-df51-4a9a-8ab5-014c2010d497_GiZFXjmXETQ.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>Schedule</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Schedule</BasePath>
+      <RelativePath>images/teachers/71281fb3-df51-4a9a-8ab5-014c2010d497_GiZFXjmXETQ.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\71281fb3-df51-4a9a-8ab5-014c2010d497_GiZFXjmXETQ.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\82ff4362-b5fd-4504-a4d3-8cac1ed8566b_photo_2025-03-10_10-36-29-Photoroom копия.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Schedule</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Schedule</BasePath>
+      <RelativePath>images/teachers/82ff4362-b5fd-4504-a4d3-8cac1ed8566b_photo_2025-03-10_10-36-29-Photoroom копия.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\82ff4362-b5fd-4504-a4d3-8cac1ed8566b_photo_2025-03-10_10-36-29-Photoroom копия.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\teachers\bd7754b3-5e33-4e3f-9477-52a1eac6ad06_Q50XVeALP0E.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Schedule</SourceId>

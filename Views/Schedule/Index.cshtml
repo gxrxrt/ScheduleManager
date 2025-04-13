@@ -9,14 +9,14 @@
 <!-- Вывод ошибок, если ModelState не валиден -->
 @if (!ViewData.ModelState.IsValid)
 {
-    <div class="alert alert-danger">
-        <ul>
+        <div class="alert alert-danger">
+            <ul>
             @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
             {
-                <li>@error.ErrorMessage</li>
+                        <li>@error.ErrorMessage</li>
             }
-        </ul>
-    </div>
+            </ul>
+        </div>
 }
 
 <!-- Контейнер для клиентской валидации -->
@@ -30,7 +30,7 @@
                 <option value="">-- Выберите группу --</option>
                 @foreach (var group in Model.Groups)
                 {
-                    <option value="@group.Value">@group.Text</option>
+                        <option value="@group.Value">@group.Text</option>
                 }
             </select>
         </div>
@@ -43,7 +43,7 @@
                 <option value="">-- Выберите преподавателя --</option>
                 @foreach (var teacher in Model.Teachers)
                 {
-                    <option value="@teacher.Value">@teacher.Text</option>
+                        <option value="@teacher.Value">@teacher.Text</option>
                 }
             </select>
         </div>
@@ -58,66 +58,110 @@
 <hr />
 
 <div id="scheduleResults">
-    <!-- Здесь подгружается расписание через AJAX -->
+    <!-- Сюда будет подгружаться расписание -->
 </div>
 
 @section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            console.log("jQuery version: " + $.fn.jquery);
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                console.log("jQuery version: " + $.fn.jquery);
 
-            // Функция для отображения клиентских ошибок в общем стиле
-            function showValidationError(message) {
-                var html = '<div class="alert alert-danger"><ul><li>' + message + '</li></ul></div>';
-                $('#clientValidationErrors').html(html);
-            }
+                // Переменные для отслеживания текущего состояния
+                let currentRequestType = null;
+                let currentRequestId = null;
+                let currentSortField = "Time";
+                let currentSortOrder = "asc";
 
-            // Очистка контейнера сообщений об ошибках
-            function clearValidationError() {
-                $('#clientValidationErrors').html('');
-            }
+                // Функция для отображения клиентских ошибок
+                function showValidationError(message) {
+                    var html = '<div class="alert alert-danger"><ul><li>' + message + '</li></ul></div>';
+                    $('#clientValidationErrors').html(html);
+                }
 
-            $('#btnLoadGroup').click(function () {
-                console.log("btnLoadGroup clicked");
-                clearValidationError();
-                var groupId = $('#groupSelect').val();
-                if (groupId) {
-                    console.log("Selected GroupId: " + groupId);
-                    $.get('@Url.Action("GroupSchedule", "Schedule")', { groupId: groupId }, function (data) {
-                        console.log("Response received for GroupSchedule");
-                        $('#scheduleResults').html(data);
+                // Очистка ошибок
+                function clearValidationError() {
+                    $('#clientValidationErrors').html('');
+                }
+
+                // Загрузка расписания (универсальная)
+                function loadSchedule(type, id, sortField = null, sortOrder = null) {
+                    clearValidationError();
+                    currentRequestType = type;
+                    currentRequestId = id;
+
+                    // Обновляем параметры сортировки, если переданы
+                    if (sortField) currentSortField = sortField;
+                    if (sortOrder) currentSortOrder = sortOrder;
+
+                    let url = "";
+                    let data = {
+                        sortField: currentSortField,
+                        sortOrder: currentSortOrder
+                    };
+
+                    switch (type) {
+                        case "group":
+                            url = '@Url.Action("GroupSchedule", "Schedule")';
+                            data.groupId = id;
+                            break;
+                        case "teacher":
+                            url = '@Url.Action("TeacherSchedule", "Schedule")';
+                            data.teacherId = id;
+                            break;
+                        case "general":
+                            url = '@Url.Action("GeneralSchedule", "Schedule")';
+                            break;
+                    }
+
+                    $.get(url, data, function (result) {
+                        $('#scheduleResults').html(result);
+                        bindSortingLinks(); // переназначаем обработчики после обновления DOM
                     });
                 }
-                else {
-                    showValidationError("Пожалуйста, выберите группу.");
-                }
-            });
 
-            $('#btnLoadTeacher').click(function () {
-                console.log("btnLoadTeacher clicked");
-                clearValidationError();
-                var teacherId = $('#teacherSelect').val();
-                if (teacherId) {
-                    console.log("Selected TeacherId: " + teacherId);
-                    $.get('@Url.Action("TeacherSchedule", "Schedule")', { teacherId: teacherId }, function (data) {
-                        console.log("Response received for TeacherSchedule");
-                        $('#scheduleResults').html(data);
+                // Назначение обработчиков сортировки
+                function bindSortingLinks() {
+                    $("#scheduleResults th a").off("click").on("click", function (e) {
+                        e.preventDefault();
+
+                        const sortField = $(this).data("sortfield");
+
+                        // Переключение порядка сортировки
+                        if (currentSortField === sortField) {
+                            currentSortOrder = (currentSortOrder === "asc") ? "desc" : "asc";
+                        } else {
+                            currentSortField = sortField;
+                            currentSortOrder = "asc";
+                        }
+
+                        loadSchedule(currentRequestType, currentRequestId, currentSortField, currentSortOrder);
                     });
                 }
-                else {
-                    showValidationError("Пожалуйста, выберите преподавателя.");
-                }
-            });
 
-            $('#btnLoadGeneral').click(function () {
-                console.log("btnLoadGeneral clicked");
-                clearValidationError();
-                $.get('@Url.Action("GeneralSchedule", "Schedule")', function (data) {
-                    console.log("Response received for GeneralSchedule");
-                    $('#scheduleResults').html(data);
+                // Обработчики кнопок загрузки расписания
+                $('#btnLoadGroup').click(function () {
+                    let groupId = $('#groupSelect').val();
+                    if (groupId) {
+                        loadSchedule("group", groupId);
+                    } else {
+                        showValidationError("Пожалуйста, выберите группу.");
+                    }
                 });
+
+                $('#btnLoadTeacher').click(function () {
+                    let teacherId = $('#teacherSelect').val();
+                    if (teacherId) {
+                        loadSchedule("teacher", teacherId);
+                    } else {
+                        showValidationError("Пожалуйста, выберите преподавателя.");
+                    }
+                });
+
+                $('#btnLoadGeneral').click(function () {
+                    loadSchedule("general", null);
+                });
+
             });
-        });
-    </script>
+        </script>
 }

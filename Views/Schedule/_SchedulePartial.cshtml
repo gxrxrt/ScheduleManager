@@ -1,34 +1,63 @@
 ﻿@model IEnumerable<Schedule.Data.Models.Lesson>
 
+@{
+    string currentSortField = ViewBag.SortField as string ?? "StartTime";
+    string currentSortOrder = ViewBag.SortOrder as string ?? "asc";
+
+    Func<string, string> GetSortIcon = field =>
+    {
+        if (currentSortField != field) return "";
+        return currentSortOrder == "asc" ? "↑" : "↓";
+    };
+}
+
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        Расписание не найдено.
-    </div>
+        <div class="alert alert-info">Расписание не найдено.</div>
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Время начала</th>
-                <th>Время окончания</th>
-                <th>Аудитория</th>
-                <th>Преподаватель</th>
-                <th>Предмет</th>
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="javascript:void(0);" data-sortfield="StartTime" data-sortorder="@((currentSortField == "StartTime" && currentSortOrder == "asc") ? "desc" : "asc")">
+                            Время начала @GetSortIcon("StartTime")
+                        </a>
+                    </th>
+                    <th>
+                        <a href="javascript:void(0);" data-sortfield="EndTime" data-sortorder="@((currentSortField == "EndTime" && currentSortOrder == "asc") ? "desc" : "asc")">
+                            Время окончания @GetSortIcon("EndTime")
+                        </a>
+                    </th>
+                    <th>
+                        <a href="javascript:void(0);" data-sortfield="Classroom" data-sortorder="@((currentSortField == "Classroom" && currentSortOrder == "asc") ? "desc" : "asc")">
+                            Аудитория @GetSortIcon("Classroom")
+                        </a>
+                    </th>
+                    <th>
+                        <a href="javascript:void(0);" data-sortfield="Teacher" data-sortorder="@((currentSortField == "Teacher" && currentSortOrder == "asc") ? "desc" : "asc")">
+                            Преподаватель @GetSortIcon("Teacher")
+                        </a>
+                    </th>
+                    <th>
+                        <a href="javascript:void(0);" data-sortfield="Subject" data-sortorder="@((currentSortField == "Subject" && currentSortOrder == "asc") ? "desc" : "asc")">
+                            Предмет @GetSortIcon("Subject")
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
             @foreach (var lesson in Model)
             {
-                <tr>
-                    <td>@lesson.StartTime.ToString("HH:mm")</td>
-                    <td>@lesson.EndTime.ToString("HH:mm")</td>
-                    <td>@(lesson.Classroom != null ? lesson.Classroom.RoomNumber : "N/A")</td>
-                    <td>@(lesson.Teacher != null ? lesson.Teacher.Name : "N/A")</td>
-                    <td>@(lesson.Subject != null ? lesson.Subject.Name : "N/A")</td>
-                </tr>
+                    <tr>
+                        <td>@lesson.StartTime.ToString("dd-MM HH:mm")</td>
+                        <td>@lesson.EndTime.ToString("dd-MM HH:mm")</td>
+                        <td>@(lesson.Classroom?.RoomNumber ?? "N/A")</td>
+                        <td>@(lesson.Teacher?.Name ?? "N/A")</td>
+                        <td>@(lesson.Subject?.Name ?? "N/A")</td>
+                    </tr>
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 }

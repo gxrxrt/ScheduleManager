@@ -14,14 +14,21 @@ namespace Schedule.Controllers
         }
 
         // Index
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-
             var teachers = _teacherRepository.GetAll();
-            Console.WriteLine($"Teachers count: {teachers.Count()}"); // Логирование
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                teachers = teachers.Where(t => t.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            ViewBag.SearchString = searchString; // 👈 Передаём строку в представление
 
             return View(teachers);
         }
+
+
 
         // Create
         public IActionResult Create()

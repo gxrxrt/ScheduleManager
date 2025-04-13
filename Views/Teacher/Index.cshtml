@@ -1,6 +1,17 @@
 ﻿@model IEnumerable<Schedule.Data.Models.Teacher>
 
 <h1>Преподаватели</h1>
+
+<form asp-controller="Teacher" asp-action="Index" method="get" class="mb-3">
+    <div class="input-group mb-3">
+        <input type="text" name="searchString" class="form-control" placeholder="Поиск преподавателя..." value="@ViewBag.SearchString" />
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </div>
+</form>
+
+<p>
+    <a href="@Url.Action("Create", "Teacher")">Добавить преподавателя</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -12,7 +23,6 @@
         </tr>
     </thead>
     <tbody>
-        <a href="@Url.Action("Create", "Teacher")">Добавить преподавателя</a>
         @foreach (var teacher in Model)
         {
             <tr>
