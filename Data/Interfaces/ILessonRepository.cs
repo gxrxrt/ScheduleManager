@@ -9,6 +9,13 @@ namespace Schedule.Data.Interfaces
 
         // Метод для получения расписания по фильтрам (по преподавателю, группе, дате)
         IEnumerable<Lesson> GetSchedule(Func<Lesson, bool> predicate);
+
+        //метод для получения занятия по ID с вложенными сущностями
+        Lesson GetByIdWithDetails(int id);
+
+        //Метод GetAllWithIncludes() нужен для того, чтобы загружать Lesson с полными навигационными свойствами: Teacher, Subject, Classroom, LessonGroups → Group
+        IEnumerable<Lesson> GetAllWithIncludes();
+
     }
 
 }

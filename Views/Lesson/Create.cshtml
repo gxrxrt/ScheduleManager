@@ -1,0 +1,58 @@
+﻿@model Schedule.Data.Models.Lesson
+
+@{
+    ViewData["Title"] = "Добавить занятие";
+}
+
+<h1>Добавление занятия</h1>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="StartTime">Время начала</label>
+        <input asp-for="StartTime" class="form-control" type="datetime-local"
+               min="@DateTime.Today.ToString("yyyy-MM-ddTHH:mm")"
+               value="@DateTime.Today.AddHours(9).ToString("yyyy-MM-ddTHH:mm")" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndTime">Время окончания</label>
+        <input asp-for="EndTime" class="form-control" type="datetime-local"
+               min="@DateTime.Today.ToString("yyyy-MM-ddTHH:mm")"
+               value="@DateTime.Today.AddHours(10).ToString("yyyy-MM-ddTHH:mm")" />
+    </div>
+
+    <div class="form-group">
+        <label>Аудитория</label>
+        <select asp-for="ClassroomId" class="form-control" asp-items="ViewBag.Classrooms"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Преподаватель</label>
+        <select asp-for="TeacherId" class="form-control" asp-items="ViewBag.Teachers"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Предмет</label>
+        <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.Subjects"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Группы</label>
+        <select name="groupIds" class="form-control" asp-items="ViewBag.Groups" multiple></select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a class="btn btn-secondary" href="@Url.Action("Index")">Назад</a>
+</form>

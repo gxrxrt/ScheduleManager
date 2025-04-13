@@ -1,0 +1,18 @@
+﻿@model Schedule.Data.Models.Lesson
+
+@{
+    ViewData["Title"] = "Детали занятия";
+}
+
+<h1>Детали занятия</h1>
+
+<div>
+    <p><strong>Преподаватель:</strong> @Model.Teacher.Name</p>
+    <p><strong>Предмет:</strong> @Model.Subject.Name</p>
+    <p><strong>Аудитория:</strong> @Model.Classroom.RoomNumber</p>
+    <p><strong>Группы:</strong> @string.Join(", ", Model.LessonGroups.Select(g => g.Group.Name))</p>
+    <p><strong>Начало:</strong> @Model.StartTime.ToString("dd.MM.yyyy HH:mm")</p>
+    <p><strong>Окончание:</strong> @Model.EndTime.ToString("HH:mm")</p>
+</div>
+
+<a class="btn btn-secondary" href="@Url.Action("Index")">Назад</a>

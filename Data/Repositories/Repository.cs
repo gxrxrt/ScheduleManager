@@ -15,7 +15,7 @@ namespace Schedule.Data.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll() => _dbSet.ToList();
+        public virtual IEnumerable<T> GetAll() => _dbSet.ToList();
 
         public T GetById(int id) => _dbSet.Find(id);
 
@@ -32,13 +32,26 @@ namespace Schedule.Data.Repositories
     {
         public TeacherRepository(AppDbContext context) : base(context) { }
 
+        public override IEnumerable<Teacher> GetAll()
+        {
+            return _dbSet.Where(t => t.Name != null).ToList();
+        }
+
         public Teacher GetTeacherByEmail(string email)
-            => _dbSet.FirstOrDefault(t => t.Email == email);
+        {
+            return _dbSet.FirstOrDefault(t => t.Email == email);
+        }
     }
+
 
     public class ClassroomRepository : Repository<Classroom>, IClassroomRepository
     {
         public ClassroomRepository(AppDbContext context) : base(context) { }
+
+        public override IEnumerable<Classroom> GetAll()
+        {
+            return _dbSet.Where(c => c.RoomNumber != null).ToList();
+        }
 
         public IEnumerable<Classroom> FindAvailableClassrooms(DateTime startTime, DateTime endTime)
         {
@@ -52,10 +65,17 @@ namespace Schedule.Data.Repositories
         }
     }
 
+
     public class SubjectRepository : Repository<Subject>, ISubjectRepository
     {
         public SubjectRepository(AppDbContext context) : base(context) { }
+
+        public override IEnumerable<Subject> GetAll()
+        {
+            return _dbSet.Where(s => s.Name != null).ToList();
+        }
     }
+
 
     public class GroupRepository : Repository<Group>, IGroupRepository
     {
@@ -107,6 +127,29 @@ namespace Schedule.Data.Repositories
                 .Where(predicate)
                 .ToList();
         }
+
+        public Lesson GetByIdWithDetails(int id)
+        {
+            return _dbSet
+                .Include(l => l.Teacher)
+                .Include(l => l.Classroom)
+                .Include(l => l.Subject)
+                .Include(l => l.LessonGroups)
+                    .ThenInclude(lg => lg.Group)
+                .FirstOrDefault(l => l.Id == id);
+        }
+
+        public IEnumerable<Lesson> GetAllWithIncludes()
+        {
+            return _dbSet
+                .Include(l => l.Teacher)
+                .Include(l => l.Subject)
+                .Include(l => l.Classroom)
+                .Include(l => l.LessonGroups)
+                    .ThenInclude(lg => lg.Group)
+                .ToList();
+        }
+
     }
 
     public class LessonGroupRepository : Repository<LessonGroup>, ILessonGroupRepository

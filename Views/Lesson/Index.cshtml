@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Schedule.Data.Models.Lesson>
+
+@{
+    ViewData["Title"] = "Занятия";
+}
+
+<h1>Занятия</h1>
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create")">Добавить занятие</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Время</th>
+            <th>Аудитория</th>
+            <th>Преподаватель</th>
+            <th>Предмет</th>
+            <th>Группы</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lesson in Model)
+        {
+            <tr>
+                <td>@lesson.StartTime.ToString("dd.MM.yyyy HH:mm") - @lesson.EndTime.ToString("HH:mm")</td>
+                <td>@lesson.Classroom.RoomNumber</td>
+                <td>@lesson.Teacher.Name</td>
+                <td>@lesson.Subject.Name</td>
+                <td>@string.Join(", ", lesson.LessonGroups.Select(g => g.Group.Name))</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", new { id = lesson.Id })">Редактировать</a>
+                    <a class="btn btn-info btn-sm" href="@Url.Action("Details", new { id = lesson.Id })">Подробнее</a>
+                    <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = lesson.Id })">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

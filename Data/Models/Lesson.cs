@@ -3,23 +3,26 @@
     public class Lesson
     {
         public int Id { get; set; }
+
+        //[Required(ErrorMessage = "Начало занятия обязательно")]
         public DateTime StartTime { get; set; }  // Время начала занятия
+        //[Required(ErrorMessage = "Конец занятия обязательно")]
         public DateTime EndTime { get; set; }    // Время окончания занятия
 
         // Внешний ключ для аудитории
         public int ClassroomId { get; set; }
-        public Classroom Classroom { get; set; }
+        public Classroom? Classroom { get; set; }
 
         // Внешний ключ для преподавателя
         public int TeacherId { get; set; }
-        public Teacher Teacher { get; set; }
+        public Teacher? Teacher { get; set; }
 
         // Внешний ключ для предмета
         public int SubjectId { get; set; }
-        public Subject Subject { get; set; }
+        public Subject? Subject { get; set; }
 
         // Связь многие ко многим с группами
-        public ICollection<LessonGroup> LessonGroups { get; set; }
+        public ICollection<LessonGroup>? LessonGroups { get; set; }
     }
 
 }
