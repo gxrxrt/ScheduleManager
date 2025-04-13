@@ -46,20 +46,35 @@ namespace Schedule.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/");
+
+            if (User.Identity.IsAuthenticated)
+            {
+                // Если пользователь уже авторизован и сам пришёл на /Login — редиректим на главную
+                // но только если returnUrl не указывает снова на /Login
+                if (!Url.IsLocalUrl(returnUrl) || returnUrl.Contains("Login"))
+                {
+                    returnUrl = Url.Content("~/");
+                }
+
+                Response.Redirect(returnUrl);
+                return;
+            }
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
-            returnUrl ??= Url.Content("~/");
-
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
         }
+
+
+
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {

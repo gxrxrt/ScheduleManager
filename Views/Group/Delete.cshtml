@@ -8,8 +8,10 @@
 
 <h3>Вы уверены, что хотите удалить группу @Model.Name?</h3>
 
-<form asp-action="DeleteConfirmed" method="post">
+<form asp-action="Delete" method="post">
     @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
     <button type="submit" class="btn btn-danger">Удалить</button>
     <a href="@Url.Action("Index")" class="btn btn-secondary">Отмена</a>
 </form>
+

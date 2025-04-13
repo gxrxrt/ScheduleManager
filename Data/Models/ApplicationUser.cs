@@ -5,4 +5,6 @@ public class ApplicationUser : IdentityUser
 {
     [Required(ErrorMessage = "ФИО обязательно")]
     public string FullName { get; set; } // Можно добавить любые поля
+
+
 }

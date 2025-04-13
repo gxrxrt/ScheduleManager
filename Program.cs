@@ -66,7 +66,6 @@ app.Use(async (context, next) =>
     }
 });
 
-app.UseAuthentication(); // Добавить перед Authorization
 app.UseAuthorization();
 
 // 6. Настройка маршрутизации
