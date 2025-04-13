@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+
+<h1>Добро пожаловать на сайт расписания</h1>
+<p>Выберите раздел для работы:</p>
+
+<div class="list-group">
+    <a href="@Url.Action("Index", "Teacher")" class="list-group-item list-group-item-action">Преподаватели</a>
+    <a href="@Url.Action("Index", "Group")" class="list-group-item list-group-item-action">Группы</a>
+    <a href="@Url.Action("Index", "Classroom")" class="list-group-item list-group-item-action">Аудитории</a>
+</div>

@@ -1,0 +1,27 @@
+﻿@model Schedule.Data.Models.Group
+
+@{
+    ViewData["Title"] = "Добавление группы";
+}
+
+<h1>Добавление группы</h1>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Название группы</label>
+        <input name="Name" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Course" class="control-label">Курс</label>
+        <input name="Course" asp-for="Course" class="form-control" />
+        <span asp-validation-for="Course" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+<a href="@Url.Action("Index")">Назад</a>

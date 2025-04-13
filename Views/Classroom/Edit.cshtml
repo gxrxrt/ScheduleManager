@@ -1,0 +1,27 @@
+﻿@model Schedule.Data.Models.Classroom
+
+@{
+    ViewData["Title"] = "Редактирование аудитории";
+}
+
+<h1>Редактирование аудитории</h1>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="RoomNumber" class="control-label">Номер/Название</label>
+        <input name="RoomNumber" asp-for="RoomNumber" class="form-control" value="@Model.RoomNumber"/>
+        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Capacity" class="control-label">Вместимость</label>
+        <input name="Capacity" asp-for="Capacity" class="form-control" type="number" value="@Model.Capacity"/>
+        <span asp-validation-for="Capacity" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+<a href="@Url.Action("Index")">Назад</a>

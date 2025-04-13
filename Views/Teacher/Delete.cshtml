@@ -1,0 +1,28 @@
+﻿@model Schedule.Data.Models.Teacher
+
+@{
+    ViewData["Title"] = "Delete Teacher";
+}
+
+<h1>Удаление преподавателя</h1>
+
+<h3>Вы уверены что хотите удалить этого преподавателя?</h3>
+
+<div>
+    <h4>Teacher</h4>
+    <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dd>@Model.Name</dd>
+        <dt>Email</dt>
+        <dd>@Model.Email</dd>
+        <dt>Specialization</dt>
+        <dd>@Model.Specialization</dd>
+    </dl>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+</form>

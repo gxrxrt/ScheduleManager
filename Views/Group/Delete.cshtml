@@ -1,0 +1,15 @@
+﻿@model Schedule.Data.Models.Group
+
+@{
+    ViewData["Title"] = "Удаление группы";
+}
+
+<h1>Удаление группы</h1>
+
+<h3>Вы уверены, что хотите удалить группу @Model.Name?</h3>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Отмена</a>
+</form>

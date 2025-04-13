@@ -1,0 +1,34 @@
+﻿@model Schedule.Data.Models.Teacher
+
+@{
+    ViewData["Title"] = "Добавление преподавателя";
+}
+
+<h1>Добавление преподавателя</h1>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">ФИО</label>
+        <input name="Name" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Эл.почта</label>
+        <input name="Email"  asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Specialization" class="control-label">Дисциплина</label>
+        <input name="Specialization" asp-for="Specialization" class="form-control" />
+        <span asp-validation-for="Specialization" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+
+<a href="@Url.Action("Index")">Назад</a>
