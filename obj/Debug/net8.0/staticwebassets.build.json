@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "pYpjkcOxg5TorgG7YVJVT+C4j9GP+2pIqfZBtxMhzrk=",
+  "Hash": "/qllmLOhfqrEUTj2FWmPcXDo0Jrrg2tnrWmolhW4ukU=",
   "Source": "Schedule",
   "BasePath": "_content/Schedule",
   "Mode": "Default",
@@ -1193,6 +1193,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\garar\\Desktop\\cursovaya4k\\Schedule\\Schedule\\wwwroot\\images\\teachers\\bd7754b3-5e33-4e3f-9477-52a1eac6ad06_Q50XVeALP0E.jpg",
+      "SourceId": "Schedule",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\garar\\Desktop\\cursovaya4k\\Schedule\\Schedule\\wwwroot\\",
+      "BasePath": "_content/Schedule",
+      "RelativePath": "images/teachers/bd7754b3-5e33-4e3f-9477-52a1eac6ad06_Q50XVeALP0E.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\teachers\\bd7754b3-5e33-4e3f-9477-52a1eac6ad06_Q50XVeALP0E.jpg"
     },
     {
       "Identity": "C:\\Users\\garar\\Desktop\\cursovaya4k\\Schedule\\Schedule\\wwwroot\\js\\site.js",

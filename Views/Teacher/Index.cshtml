@@ -4,6 +4,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Фото</th>
             <th>ФИО</th>
             <th>Email</th>
             <th>Специализация</th>
@@ -11,9 +12,22 @@
         </tr>
     </thead>
     <tbody>
+        <a href="@Url.Action("Create", "Teacher")">Добавить преподавателя</a>
         @foreach (var teacher in Model)
         {
             <tr>
+                <!-- Новая колонка с фото преподавателя -->
+                <td>
+                    @if (!string.IsNullOrEmpty(teacher.PhotoPath))
+                    {
+                        <img src="@Url.Content(teacher.PhotoPath)" alt="@teacher.Name" style="width:50px; height:50px; object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <!-- Если фото отсутствует, можно вывести placeholder -->
+                        <img src="~/images/no-photo.png" alt="Нет фото" style="width:50px; height:50px; object-fit:cover;" />
+                    }
+                </td>
                 <td>@teacher.Name</td>
                 <td>@teacher.Email</td>
                 <td>@teacher.Specialization</td>
@@ -25,4 +39,3 @@
         }
     </tbody>
 </table>
-<a href="@Url.Action("Create", "Teacher")">Добавить преподавателя</a>

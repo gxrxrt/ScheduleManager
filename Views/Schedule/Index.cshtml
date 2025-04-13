@@ -1,0 +1,123 @@
+﻿@model Schedule.Data.Models.ScheduleViewModel
+
+@{
+    ViewData["Title"] = "Расписание";
+}
+
+<h1>Расписание</h1>
+
+<!-- Вывод ошибок, если ModelState не валиден -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<!-- Контейнер для клиентской валидации -->
+<div id="clientValidationErrors"></div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Расписание для группы</h3>
+        <div class="form-group">
+            <select id="groupSelect" class="form-control">
+                <option value="">-- Выберите группу --</option>
+                @foreach (var group in Model.Groups)
+                {
+                    <option value="@group.Value">@group.Text</option>
+                }
+            </select>
+        </div>
+        <button id="btnLoadGroup" class="btn btn-primary">Загрузить</button>
+    </div>
+    <div class="col-md-4">
+        <h3>Расписание для преподавателя</h3>
+        <div class="form-group">
+            <select id="teacherSelect" class="form-control">
+                <option value="">-- Выберите преподавателя --</option>
+                @foreach (var teacher in Model.Teachers)
+                {
+                    <option value="@teacher.Value">@teacher.Text</option>
+                }
+            </select>
+        </div>
+        <button id="btnLoadTeacher" class="btn btn-primary">Загрузить</button>
+    </div>
+    <div class="col-md-4">
+        <h3>Общее расписание</h3>
+        <button id="btnLoadGeneral" class="btn btn-primary">Загрузить</button>
+    </div>
+</div>
+
+<hr />
+
+<div id="scheduleResults">
+    <!-- Здесь подгружается расписание через AJAX -->
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("jQuery version: " + $.fn.jquery);
+
+            // Функция для отображения клиентских ошибок в общем стиле
+            function showValidationError(message) {
+                var html = '<div class="alert alert-danger"><ul><li>' + message + '</li></ul></div>';
+                $('#clientValidationErrors').html(html);
+            }
+
+            // Очистка контейнера сообщений об ошибках
+            function clearValidationError() {
+                $('#clientValidationErrors').html('');
+            }
+
+            $('#btnLoadGroup').click(function () {
+                console.log("btnLoadGroup clicked");
+                clearValidationError();
+                var groupId = $('#groupSelect').val();
+                if (groupId) {
+                    console.log("Selected GroupId: " + groupId);
+                    $.get('@Url.Action("GroupSchedule", "Schedule")', { groupId: groupId }, function (data) {
+                        console.log("Response received for GroupSchedule");
+                        $('#scheduleResults').html(data);
+                    });
+                }
+                else {
+                    showValidationError("Пожалуйста, выберите группу.");
+                }
+            });
+
+            $('#btnLoadTeacher').click(function () {
+                console.log("btnLoadTeacher clicked");
+                clearValidationError();
+                var teacherId = $('#teacherSelect').val();
+                if (teacherId) {
+                    console.log("Selected TeacherId: " + teacherId);
+                    $.get('@Url.Action("TeacherSchedule", "Schedule")', { teacherId: teacherId }, function (data) {
+                        console.log("Response received for TeacherSchedule");
+                        $('#scheduleResults').html(data);
+                    });
+                }
+                else {
+                    showValidationError("Пожалуйста, выберите преподавателя.");
+                }
+            });
+
+            $('#btnLoadGeneral').click(function () {
+                console.log("btnLoadGeneral clicked");
+                clearValidationError();
+                $.get('@Url.Action("GeneralSchedule", "Schedule")', function (data) {
+                    console.log("Response received for GeneralSchedule");
+                    $('#scheduleResults').html(data);
+                });
+            });
+        });
+    </script>
+}

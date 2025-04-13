@@ -6,7 +6,6 @@ namespace Schedule.Data.Models
     public class Teacher
     {
         public int Id { get; set; }
-
         [Required(ErrorMessage = "Имя обязательно")]
         public string? Name { get; set; }
 
@@ -16,12 +15,10 @@ namespace Schedule.Data.Models
         [Required(ErrorMessage = "Специализация обязательна")]
         public string? Specialization { get; set; }
 
+        // Добавляем свойство для пути к фотографии преподавателя
+        public string? PhotoPath { get; set; }
+
         [NotMapped]
         public ICollection<Lesson>? Lessons { get; set; } = new List<Lesson>();
-
-
-
     }
-
-
 }

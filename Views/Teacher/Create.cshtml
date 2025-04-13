@@ -6,25 +6,34 @@
 
 <h1>Добавление преподавателя</h1>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
 
+    <!-- Имя -->
     <div class="form-group">
         <label asp-for="Name" class="control-label">ФИО</label>
         <input name="Name" asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
+    <!-- Email -->
     <div class="form-group">
         <label asp-for="Email" class="control-label">Эл.почта</label>
-        <input name="Email"  asp-for="Email" class="form-control" />
+        <input name="Email" asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
+    <!-- Специализация -->
     <div class="form-group">
         <label asp-for="Specialization" class="control-label">Дисциплина</label>
         <input name="Specialization" asp-for="Specialization" class="form-control" />
         <span asp-validation-for="Specialization" class="text-danger"></span>
+    </div>
+
+    <!-- Фото -->
+    <div class="form-group">
+        <label for="photo">Фото</label>
+        <input type="file" name="photo" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary">Сохранить</button>

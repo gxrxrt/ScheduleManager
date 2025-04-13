@@ -31,22 +31,34 @@ namespace Schedule.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Teacher teacher)
+        public IActionResult Create(Teacher teacher, IFormFile photo)
         {
-            Console.WriteLine("POST: Create() вызван");
-            Console.WriteLine($"Имя: {teacher.Name}, Email: {teacher.Email}");
-
             if (ModelState.IsValid)
             {
-                Console.WriteLine("ModelState валиден");
+                if (photo != null && photo.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "teachers");
+                    Directory.CreateDirectory(uploadsFolder); // на случай если папка не существует
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        photo.CopyTo(fileStream);
+                    }
+
+                    teacher.PhotoPath = "/images/teachers/" + uniqueFileName;
+                }
 
                 _teacherRepository.Add(teacher);
                 _teacherRepository.Save();
                 return RedirectToAction("Index");
             }
-            Console.WriteLine("ModelState НЕ валиден");
+
             return View(teacher);
         }
+
 
         // Edit
         public IActionResult Edit(int id)
@@ -61,7 +73,7 @@ namespace Schedule.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Teacher teacher)
+        public IActionResult Edit(int id, Teacher teacher, IFormFile photo)
         {
             if (id != teacher.Id)
             {
@@ -70,6 +82,21 @@ namespace Schedule.Controllers
 
             if (ModelState.IsValid)
             {
+                if (photo != null && photo.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "teachers");
+                    Directory.CreateDirectory(uploadsFolder); // на случай если папка не существует
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        photo.CopyTo(fileStream);
+                    }
+
+                    teacher.PhotoPath = "/images/teachers/" + uniqueFileName;
+                }
                 _teacherRepository.Update(teacher);
                 _teacherRepository.Save();
                 return RedirectToAction(nameof(Index));
