@@ -6,7 +6,7 @@ namespace Schedule.Data
     {
         public static void Initial(IServiceProvider serviceProvider, IHostEnvironment hostEnvironment)
         {
-            var context = serviceProvider.GetRequiredService<ScheduleDbContext>();
+            var context = serviceProvider.GetRequiredService<AppDbContext>();
 
             if (!context.Teachers.Any())
             {

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
@@ -26,6 +30,11 @@
                     <a class="nav-link" href="@Url.Action("Index", "Classroom")">Аудитории</a>
                 </li>
             </ul>
+
+            <!-- Вставка части для авторизации/выхода -->
+            <div class="navbar-nav ml-auto">
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
         </div>
     </nav>
 

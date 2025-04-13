@@ -6,10 +6,10 @@ namespace Schedule.Data.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly ScheduleDbContext _context;
+        protected readonly AppDbContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public Repository(ScheduleDbContext context)
+        public Repository(AppDbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
@@ -30,7 +30,7 @@ namespace Schedule.Data.Repositories
 
     public class TeacherRepository : Repository<Teacher>, ITeacherRepository
     {
-        public TeacherRepository(ScheduleDbContext context) : base(context) { }
+        public TeacherRepository(AppDbContext context) : base(context) { }
 
         public Teacher GetTeacherByEmail(string email)
             => _dbSet.FirstOrDefault(t => t.Email == email);
@@ -38,7 +38,7 @@ namespace Schedule.Data.Repositories
 
     public class ClassroomRepository : Repository<Classroom>, IClassroomRepository
     {
-        public ClassroomRepository(ScheduleDbContext context) : base(context) { }
+        public ClassroomRepository(AppDbContext context) : base(context) { }
 
         public IEnumerable<Classroom> FindAvailableClassrooms(DateTime startTime, DateTime endTime)
         {
@@ -54,17 +54,17 @@ namespace Schedule.Data.Repositories
 
     public class SubjectRepository : Repository<Subject>, ISubjectRepository
     {
-        public SubjectRepository(ScheduleDbContext context) : base(context) { }
+        public SubjectRepository(AppDbContext context) : base(context) { }
     }
 
     public class GroupRepository : Repository<Group>, IGroupRepository
     {
-        public GroupRepository(ScheduleDbContext context) : base(context) { }
+        public GroupRepository(AppDbContext context) : base(context) { }
     }
 
     public class LessonRepository : Repository<Lesson>, ILessonRepository
     {
-        public LessonRepository(ScheduleDbContext context) : base(context) { }
+        public LessonRepository(AppDbContext context) : base(context) { }
 
         public bool CheckForConflicts(Lesson lesson)
         {
@@ -111,12 +111,12 @@ namespace Schedule.Data.Repositories
 
     public class LessonGroupRepository : Repository<LessonGroup>, ILessonGroupRepository
     {
-        public LessonGroupRepository(ScheduleDbContext context) : base(context) { }
+        public LessonGroupRepository(AppDbContext context) : base(context) { }
     }
 
     public class ScheduleRepository : Repository<Schedules>, IScheduleRepository
     {
-        public ScheduleRepository(ScheduleDbContext context) : base(context) { }
+        public ScheduleRepository(AppDbContext context) : base(context) { }
 
         public IEnumerable<Schedules> GetGroupSchedule(int groupId, DateTime date)
         {
