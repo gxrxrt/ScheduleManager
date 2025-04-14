@@ -16,7 +16,7 @@ namespace Schedule.Data.Models
         public string? Specialization { get; set; }
 
         // Добавляем свойство для пути к фотографии преподавателя
-        public string? PhotoPath { get; set; }
+        public string? PhotoPath { get; set; } = "";
 
         [NotMapped]
         public ICollection<Lesson>? Lessons { get; set; } = new List<Lesson>();

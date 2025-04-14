@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Schedule.Data;
 using Schedule.Data.Models;
+using System.Xml.Linq;
 
 namespace Schedule.Controllers
 {
@@ -40,6 +41,7 @@ namespace Schedule.Controllers
         }
 
         // Получение расписания для выбранной группы
+        // Получение расписания для выбранной группы
         public IActionResult GroupSchedule(int groupId, string sortField = "StartTime", string sortOrder = "asc")
         {
             var lessons = _context.Lessons
@@ -54,6 +56,8 @@ namespace Schedule.Controllers
 
             ViewBag.SortField = sortField;
             ViewBag.SortOrder = sortOrder;
+            ViewBag.CurrentId = groupId; // Добавлено для экспорта
+            ViewBag.ScheduleType = "group";
             return PartialView("_SchedulePartial", lessons.ToList());
         }
 
@@ -72,8 +76,11 @@ namespace Schedule.Controllers
 
             ViewBag.SortField = sortField;
             ViewBag.SortOrder = sortOrder;
+            ViewBag.CurrentId = teacherId; // Добавлено для экспорта
+            ViewBag.ScheduleType = "teacher";
             return PartialView("_SchedulePartial", lessons.ToList());
         }
+
 
         // Получение общего расписания с возможностью сортировки
         public IActionResult GeneralSchedule(string sortField = "StartTime", string sortOrder = "asc")
@@ -118,5 +125,53 @@ namespace Schedule.Controllers
                     : lessons.OrderByDescending(l => l.StartTime),
             };
         }
+        public IActionResult ExportToXml(string scheduleType, int? id = null)
+        {
+            var lessons = _context.Lessons
+                .Include(l => l.Classroom)
+                .Include(l => l.Teacher)
+                .Include(l => l.Subject)
+                .Include(l => l.LessonGroups) // Обязательно загружаем LessonGroups
+                .ThenInclude(lg => lg.Group) // Убедитесь, что Group тоже загружается
+                .AsQueryable();
+
+            if (scheduleType == "group" && id.HasValue)
+            {
+                lessons = lessons.Where(l => l.LessonGroups.Any(g => g.GroupId == id));
+            }
+            else if (scheduleType == "teacher" && id.HasValue)
+            {
+                lessons = lessons.Where(l => l.TeacherId == id);
+            }
+
+            var lessonList = lessons.ToList();
+
+            var xml = new XElement("Lessons",
+                lessonList.Select(l =>
+                    new XElement("Lesson",
+                        new XElement("Subject", l.Subject.Name),
+                        new XElement("Teacher", l.Teacher.Name),
+                        new XElement("Classroom", l.Classroom.RoomNumber),
+                        new XElement("StartTime", l.StartTime),
+                        new XElement("EndTime", l.EndTime),
+                        new XElement("Groups",
+                            l.LessonGroups.Any() ?
+                            l.LessonGroups.Select(g =>
+                                new XElement("Group", g.Group.Name)
+                            ) :
+                            new XElement("Group", "No groups")
+                        )
+                    )
+                )
+            );
+
+            var stream = new MemoryStream();
+            xml.Save(stream);
+            stream.Position = 0;
+
+            return File(stream, "application/xml", "schedule.xml");
+        }
+
+
     }
 }

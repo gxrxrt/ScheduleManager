@@ -40,6 +40,7 @@ namespace Schedule.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Teacher teacher, IFormFile photo)
         {
+
             if (ModelState.IsValid)
             {
                 if (photo != null && photo.Length > 0)
@@ -80,36 +81,43 @@ namespace Schedule.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Teacher teacher, IFormFile photo)
+        public IActionResult Edit(int id, Teacher teacher, IFormFile photo, string existingPhotoPath)
         {
             if (id != teacher.Id)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if (existingPhotoPath != null && (photo == null || photo.Length == 0))
             {
-                if (photo != null && photo.Length > 0)
-                {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "teachers");
-                    Directory.CreateDirectory(uploadsFolder); // на случай если папка не существует
-
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        photo.CopyTo(fileStream);
-                    }
-
-                    teacher.PhotoPath = "/images/teachers/" + uniqueFileName;
-                }
-                _teacherRepository.Update(teacher);
-                _teacherRepository.Save();
-                return RedirectToAction(nameof(Index));
+                teacher.PhotoPath = existingPhotoPath;
             }
+
+            if (photo != null)
+            {
+                // Загружаем новое фото, как раньше
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "teachers");
+                Directory.CreateDirectory(uploadsFolder);
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    photo.CopyTo(fileStream);
+                }
+
+                teacher.PhotoPath = "/images/teachers/" + uniqueFileName;
+            }
+
+            _teacherRepository.Update(teacher);
+            _teacherRepository.Save();
+            return RedirectToAction(nameof(Index));
+
             return View(teacher);
         }
+
+
+
 
         // Delete
         public IActionResult Delete(int id)

@@ -3,6 +3,8 @@
 @{
     string currentSortField = ViewBag.SortField as string ?? "StartTime";
     string currentSortOrder = ViewBag.SortOrder as string ?? "asc";
+    string scheduleType = ViewBag.ScheduleType as string ?? "group"; // по умолчанию
+    int currentId = ViewBag.CurrentId ?? 0;
 
     Func<string, string> GetSortIcon = field =>
     {
@@ -17,6 +19,16 @@
 }
 else
 {
+        <div class="mb-3">
+        <form asp-controller="Schedule" asp-action="ExportToXml" method="get" class="d-inline">
+            <input type="hidden" name="scheduleType" value="@scheduleType" />
+            <input type="hidden" name="id" value="@currentId" />
+            <button type="submit" class="btn btn-outline-primary">
+                Выгрузить в XML
+            </button>
+        </form>
+        </div>
+
         <table class="table table-striped">
             <thead>
                 <tr>

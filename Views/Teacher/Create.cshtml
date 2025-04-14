@@ -35,7 +35,8 @@
         <label for="photo">Фото</label>
         <input type="file" name="photo" class="form-control" />
     </div>
-
+    <!-- Скрытое поле для текущего пути к фото -->
+    <input type="hidden" name="existingPhotoPath" value="@Model.PhotoPath" />
     <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
 
